@@ -40,6 +40,7 @@ kotlin {
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
             implementation(projects.shared)
+            implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
         }
     }
 }
