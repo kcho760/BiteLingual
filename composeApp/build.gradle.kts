@@ -41,6 +41,9 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(projects.shared)
             implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
+            // Tensorflow Lite dependencies
+            implementation ("org.tensorflow:tensorflow-lite-task-vision-play-services:0.4.2")
+            implementation ("com.google.android.gms:play-services-tflite-gpu:16.2.0")
         }
     }
 }
