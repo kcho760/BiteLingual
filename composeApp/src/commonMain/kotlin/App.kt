@@ -32,5 +32,16 @@ import kotlinx.datetime.toLocalDateTime
 
 @Composable
 fun App() {
-
+    MaterialTheme {
+        MainScreen(
+            onCaptureClick = {
+                // Placeholder for actual functionality
+                println("Capture clicked")
+            },
+            onPickFromGalleryClick = {
+                // Placeholder for actual functionality
+                println("Gallery clicked")
+            }
+        )
+    }
 }
