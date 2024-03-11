@@ -31,6 +31,10 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
+            implementation("androidx.camera:camera-core:1.3.2")
+            implementation("androidx.camera:camera-camera2:1.3.2")
+            implementation("androidx.camera:camera-lifecycle:1.3.2")
+            implementation("androidx.camera:camera-view:1.3.2")
         }
         commonMain.dependencies {
             implementation(compose.runtime)
