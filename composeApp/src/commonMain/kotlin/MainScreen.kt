@@ -33,11 +33,16 @@ fun MainScreen(
     }
 }
 
-// Placeholder for CameraCapture Composable
 @Composable
 fun CameraCapture(onImageCaptured: (String) -> Unit) {
-    // Implement camera capture functionality using Material 3 components
+    Button(onClick = {
+        // Invoke this with the path of the captured image
+        onImageCaptured("path/to/captured/image.jpg")
+    }) {
+        Text("Capture Image")
+    }
 }
+
 
 // Placeholder for GalleryPicker Composable
 @Composable
