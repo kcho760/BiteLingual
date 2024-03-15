@@ -54,9 +54,11 @@ fun GalleryPicker(onImagePicked: (String) -> Unit) {
     }
 }
 
-
-// Placeholder for FoodIdentificationAndTranslation Composable
 @Composable
 fun FoodIdentificationAndTranslation(imagePath: String) {
-    // Display the food identification and translation result using Material 3 components
+    Column(modifier = Modifier.padding(16.dp)) {
+        Text(text = "Image Path: $imagePath",
+            style = MaterialTheme.typography.h5)
+        // Display additional information here as needed
+    }
 }
