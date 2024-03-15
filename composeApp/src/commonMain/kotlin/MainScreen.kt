@@ -44,11 +44,16 @@ fun CameraCapture(onImageCaptured: (String) -> Unit) {
 }
 
 
-// Placeholder for GalleryPicker Composable
 @Composable
 fun GalleryPicker(onImagePicked: (String) -> Unit) {
-    // Implement gallery pick functionality using Material 3 components
+    Button(onClick = {
+        // Invoke this with the path of the picked image from the gallery
+        onImagePicked("path/to/gallery/image.jpg")
+    }) {
+        Text("Pick Image from Gallery")
+    }
 }
+
 
 // Placeholder for FoodIdentificationAndTranslation Composable
 @Composable
