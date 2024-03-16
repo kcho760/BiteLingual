@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.LocalContext
 
 @Composable
 fun MainScreen(
@@ -34,16 +35,32 @@ fun MainScreen(
 }
 
 @Composable
-fun CameraCapture(onImageCaptured: (String) -> Unit) {
-    Button(onClick = {
-        // Invoke this with the path of the captured image
-        onImageCaptured("path/to/captured/image.jpg")
-    }) {
-        Text("Capture Image")
-    }
+fun CameraPreview() {
+    val context = LocalContext.current
+    AndroidView(factory = { ctx ->
+        PreviewView(ctx).apply {
+            layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT)
+            val cameraProviderFuture = ProcessCameraProvider.getInstance(ctx)
+            cameraProviderFuture.addListener({
+                val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
+                val preview = Preview.Builder().build().also {
+                    it.setSurfaceProvider(surfaceProvider)
+                }
+                try {
+                    cameraProvider.unbindAll()
+                    cameraProvider.bindToLifecycle(
+                        context.findLifecycleOwner(),
+                        CameraSelector.DEFAULT_BACK_CAMERA,
+                        preview)
+                } catch (exc: Exception) {
+                    Log.e("CameraPreview", "Use case binding failed", exc)
+                }
+            }, ContextCompat.getMainExecutor(ctx))
+        }
+    })
 }
-
-
 @Composable
 fun GalleryPicker(onImagePicked: (String) -> Unit) {
     Button(onClick = {
