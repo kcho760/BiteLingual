@@ -6,9 +6,9 @@ import androidx.camera.view.PreviewView
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
-import androidx.compose.material.Text
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -16,28 +16,34 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.camera.core.Preview
+import androidx.compose.ui.platform.LocalLifecycleOwner
 
 @Composable
 fun MainScreen(
     onCaptureClick: () -> Unit,
     onPickFromGalleryClick: () -> Unit,
+    showCamera: Boolean // Add a flag to toggle camera preview
 ) {
     Column(
         modifier = Modifier.fillMaxSize().padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Welcome to Bitelingual",
-            style = MaterialTheme.typography.h4,
-            modifier = Modifier.padding(bottom = 24.dp))
-        Button(
-            onClick = { onCaptureClick() },
-            modifier = Modifier.padding(bottom = 8.dp)
-        ) {
-            Text("Capture Food Image")
-        }
-        Button(onClick = { onPickFromGalleryClick() }) {
-            Text("Pick From Gallery")
+        if (showCamera) {
+            CameraPreview() // Here is where CameraPreview is called
+        } else {
+            Text("Welcome to Bitelingual",
+                style = MaterialTheme.typography.displayMedium,
+                modifier = Modifier.padding(bottom = 24.dp))
+            Button(
+                onClick = { onCaptureClick() },
+                modifier = Modifier.padding(bottom = 8.dp)
+            ) {
+                Text("Capture Food Image")
+            }
+            Button(onClick = { onPickFromGalleryClick() }) {
+                Text("Pick From Gallery")
+            }
         }
     }
 }
@@ -45,6 +51,7 @@ fun MainScreen(
 @Composable
 fun CameraPreview() {
     val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
     AndroidView(factory = { ctx ->
         PreviewView(ctx).apply {
             layoutParams = ViewGroup.LayoutParams(
@@ -59,7 +66,7 @@ fun CameraPreview() {
                 try {
                     cameraProvider.unbindAll()
                     cameraProvider.bindToLifecycle(
-                        context.findLifecycleOwner(),
+                        lifecycleOwner,
                         CameraSelector.DEFAULT_BACK_CAMERA,
                         preview)
                 } catch (exc: Exception) {
@@ -67,7 +74,7 @@ fun CameraPreview() {
                 }
             }, ContextCompat.getMainExecutor(ctx))
         }
-    })
+    }, Modifier.fillMaxSize())
 }
 @Composable
 fun GalleryPicker(onImagePicked: (String) -> Unit) {
@@ -83,7 +90,7 @@ fun GalleryPicker(onImagePicked: (String) -> Unit) {
 fun FoodIdentificationAndTranslation(imagePath: String) {
     Column(modifier = Modifier.padding(16.dp)) {
         Text(text = "Image Path: $imagePath",
-            style = MaterialTheme.typography.h5)
+            style = MaterialTheme.typography.displayMedium)
         // Display additional information here as needed
     }
 }
