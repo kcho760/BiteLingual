@@ -6,22 +6,27 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // You will need to manage the actual value of showCamera with some state logic
-        val showCamera = false // This should be dynamic based on your app's state
-
         setContent {
+            // Using remember to hold the showCamera state
+            var showCamera by remember { mutableStateOf(false) }
+
             MainScreen(
                 onCaptureClick = {
-                    // TODO: Implement what happens when capture is clicked
+                    // Toggle the camera visibility
+                    showCamera = !showCamera
                 },
                 onPickFromGalleryClick = {
-                    // TODO: Implement what happens when gallery is picked
+                    // Implement what happens when gallery is picked
                 },
                 showCamera = showCamera
             )
