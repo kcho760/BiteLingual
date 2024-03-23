@@ -23,15 +23,16 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 fun MainScreen(
     onCaptureClick: () -> Unit,
     onPickFromGalleryClick: () -> Unit,
-    showCamera: Boolean // Add a flag to toggle camera preview
+    showCamera: Boolean // This flag controls the visibility of the camera preview.
 ) {
     Column(
         modifier = Modifier.fillMaxSize().padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         if (showCamera) {
-            CameraPreview() // Here is where CameraPreview is called
+            CameraPreview() // The camera preview is displayed if showCamera is true.
         } else {
+            // UI elements displayed when the camera is not active.
             Text("Welcome to Bitelingual",
                 style = MaterialTheme.typography.displayMedium,
                 modifier = Modifier.padding(bottom = 24.dp))
@@ -64,7 +65,7 @@ fun CameraPreview() {
                     it.setSurfaceProvider(surfaceProvider)
                 }
                 try {
-                    cameraProvider.unbindAll()
+                    cameraProvider.unbindAll() // Clear any previous use cases
                     cameraProvider.bindToLifecycle(
                         lifecycleOwner,
                         CameraSelector.DEFAULT_BACK_CAMERA,
@@ -74,8 +75,9 @@ fun CameraPreview() {
                 }
             }, ContextCompat.getMainExecutor(ctx))
         }
-    }, Modifier.fillMaxSize())
+    }, modifier = Modifier.fillMaxSize())
 }
+
 @Composable
 fun GalleryPicker(onImagePicked: (String) -> Unit) {
     Button(onClick = {
